@@ -3,3 +3,6 @@ vscode/
 
 # Virtual Env
 venv/
+
+#swp
+*.swp
