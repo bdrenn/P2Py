@@ -1,7 +1,9 @@
 import logging
 import asyncio
 import sys
+import os
 from kademlia.network import Server
+
 
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -10,6 +12,7 @@ log = logging.getLogger('kademlia')
 log.addHandler(handler)
 log.setLevel(logging.DEBUG)
 
+##### NEED TO DIFFERENTIATE BETWEEN NODES AND A SERVER
 
 class Node:
     def __init__(self, port):
@@ -22,11 +25,11 @@ class Node:
         try:
             self.loop.run_forever()
         except KeyboardInterrupt:
-            pass
-        finally:
-            self.server.stop()
-            self.loop.close()
-        
+            return      
+    
+    def check_neighbors(self):
+        return self.server.bootstrappable_neighbors()
+
     def bootstrap_node(self, addr, port):
         bootstrap_node = (addr, int(port))
         self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
