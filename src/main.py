@@ -26,20 +26,15 @@ ans = input("\nDo you want to join the network? (Yes/No) : ")
 if ans[0] == "Y" or ans[0] == "y":
 	#CODE FOR JOINING NETWORK
 
-	## EXAMPLES FOR HOW WE CAN GET USER INPUT FROM CLT ##
-
-	print("\nExample for entering network - 123.123.123.123, 4586, 3453")
+	network_port = 4586
 	ask = input("\nAre you the first node? (Yes/No) : ")
 	if ask[0] == 'y' or ask[0] == 'Y':
-		nodeInput = input("\nPlease input your Port : ")
-		my_port = nodeInput
-		node = decide_first_node(my_port, y=ask[0])
+		node = decide_first_node(network_port, y=ask[0])
 	else:
-		nodeInput = input("\nPlease input your IP Address, Port, Network Port : ")
-		[addr, my_port, network_port] = nodeInput.split(",")
+		print("\nExample - 0.0.0.0, 4587 (DO NOT USE PORT 4586) : ")
+		nodeInput = input("\nPlease input your IP Address, Port : ")
+		[addr, my_port] = nodeInput.split(",")
 		node = decide_first_node(my_port, addr=addr, network_port=network_port)
-	
-	
 
 	## CONTINUOUS LOOP ASKING WHAT THE USER WANTS TO DO ##
 	flag = True

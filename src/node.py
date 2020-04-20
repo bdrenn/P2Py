@@ -26,9 +26,8 @@ class Node:
         self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
 
     def get(self, key):
-        loop = asyncio.get_event_loop()
-        loop.set_debug(True)
         return self.loop.run_until_complete(self.server.get(key))
 
     def set(self, key, value):
+        #self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
         return self.loop.run_until_complete(self.server.set(key, value))
