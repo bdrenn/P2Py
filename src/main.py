@@ -42,6 +42,7 @@ if ans[0] == "Y" or ans[0] == "y":
 			#This is where we would call our set function
 			try:
 				print(node.check_neighbors())
+				print("\n")
 				node.set('hello','file')
 			except:
 				print("You're the main node now!")
