@@ -19,7 +19,13 @@ class Node:
         self.loop.run_until_complete(self.server.listen(int(port)))
         
     def first_node(self):
-        self.loop.run_forever()
+        try:
+            self.loop.run_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self.server.stop()
+            self.loop.close()
         
     def bootstrap_node(self, addr, port):
         bootstrap_node = (addr, int(port))
@@ -29,5 +35,4 @@ class Node:
         return self.loop.run_until_complete(self.server.get(key))
 
     def set(self, key, value):
-        #self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
         return self.loop.run_until_complete(self.server.set(key, value))

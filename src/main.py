@@ -4,15 +4,15 @@ from node import Node
 
 NETWORK_PORT = 4586
 
-def decide_first_node(my_port, addr=None, network_port=None, y=None):
-	node = Node(my_port)
-	if y == 'y':
-		node.first_node()
+def decide_first_node(my_port, addr=None):
 	try:
-		node.bootstrap_node(addr, network_port)
+		node = Node(NETWORK_PORT)
+		print("You're the first node!")
+		node.first_node()
+	except:
+		node = Node(my_port)
+		node.bootstrap_node(addr, NETWORK_PORT)
 		print("I'm bootstrapping")
-	except Exception as e:
-		print(e)
 	return node	
 
 print("-----------------------------------------------------------------")
@@ -27,14 +27,10 @@ ans = input("\nDo you want to join the network? (Yes/No) : ")
 if ans[0] == "Y" or ans[0] == "y":
 	#CODE FOR JOINING NETWORK
 
-	ask = input("\nAre you the first node? (Yes/No) : ")
-	if ask[0] == 'y' or ask[0] == 'Y':
-		node = decide_first_node(NETWORK_PORT, y=ask[0])
-	else:
-		print("\nExample - 0.0.0.0, 4587 (DO NOT USE PORT 4586) : ")
-		nodeInput = input("\nPlease input your IP Address, Port : ")
-		[addr, my_port] = nodeInput.split(",")
-		node = decide_first_node(my_port, addr=addr, network_port=NETWORK_PORT)
+	print("\nExample - 0.0.0.0, 4587 (DO NOT USE PORT 4586) : ")
+	nodeInput = input("\nPlease input your IP Address, Port : ")
+	[addr, my_port] = nodeInput.split(",")
+	node = decide_first_node(my_port, addr=addr)
 
 	## CONTINUOUS LOOP ASKING WHAT THE USER WANTS TO DO ##
 	print("\nNow that you've joined, what would you like to do?")
