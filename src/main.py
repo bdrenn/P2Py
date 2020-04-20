@@ -49,12 +49,8 @@ if ans[0] == "Y" or ans[0] == "y":
 				node.first_node()		
 		elif secondInput[0] == 'G' or secondInput[0] == 'g':
 			#This is where we could call our get function
-			try:
-				print("\n")
-				print(node.get('hello'))
-			except:
-				print("You're the main node now!")
-				node.first_node()
+			print("\n")
+			print(node.get('hello'))
 		elif secondInput[0] == 'Q' or secondInput[0] == 'q':
 			print("\nThanks for joining, good bye!")
 			break
