@@ -1,4 +1,5 @@
 import sys
+import os
 
 
 print("-----------------------------------------------------------------")
@@ -16,6 +17,8 @@ if ans[0] == "Y" or ans[0] == "y":
 	nodeInput = input("\nPlease input your PeerID, IP Address, and Port : ")
 	[peerid, host, port] = nodeInput.split(",")
 	print(peerid,host,port)
+	os.system('python3 server.py')
+	os.system('python3 node.py ' + str(peerid) + ' ' + str(host) + ' ' + str(port))
 	#node.BTPeerConnection(peerid, host, port)
 	#import server
 	#server()
