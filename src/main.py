@@ -29,7 +29,6 @@ def get(file):
 			if node.get(file) != None:    # If statement to break loop once file is found
 				print("\n")
 				print(node.get(file))
-				print("\n")
 				break
 	except:
 		print("Couldn't find any other nodes on the network!")
@@ -38,7 +37,6 @@ def get(file):
 # Function for setting a file to the network
 def set(fname, file):
 	try:
-		print("\n")
 		for i in range(5):   # Keep trying to set to network until it finds other nodes
 			time.sleep(2)    # Sleeping in between requests to give other nodes time to join
 			try:
@@ -52,7 +50,9 @@ def set(fname, file):
 		print("Couldn't find any other nodes on the network!")
 	return
 
-
+###########################################################
+######################## MAIN MENU ########################
+###########################################################
 
 print("-----------------------------------------------------------------")
 print("**************************** Welcome ****************************")
@@ -65,7 +65,6 @@ ans = input("\nDo you want to join the network? (Yes/No) : ")
 
 if ans[0] == "Y" or ans[0] == "y":
 	#CODE FOR JOINING NETWORK
-
 	print("\nExample - 0.0.0.0, 4587 (DO NOT USE PORT 4586)")
 	nodeInput = input("\nPlease input your IP Address, Port : ")
 	[addr, my_port] = nodeInput.split(",")
@@ -76,7 +75,7 @@ if ans[0] == "Y" or ans[0] == "y":
 	while True:
 		secondInput = input("\nThe options are get a file, set a file, or quit (get/set/quit) : ")
 		if secondInput[0] == 'S' or secondInput[0] == 's':
-			#This is where we our set function
+			#This is where we call our set function
 			setInput = input("\nWhat file do you want to SET to the network? Example - file file.txt : ")
 			[fname, file] = setInput.split(" ")
 			set(fname, file)	
@@ -85,6 +84,7 @@ if ans[0] == "Y" or ans[0] == "y":
 			getInput = input("\nWhat file do you want to GET to the network? Example - filename : ")
 			get(getInput)
 		elif secondInput[0] == 'Q' or secondInput[0] == 'q':
+			#This is where we let our user quit
 			print("\nThanks for joining, good bye!")
 			break
 		else:
