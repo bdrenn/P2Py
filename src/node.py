@@ -21,7 +21,6 @@ class Node:
         self.loop.set_debug(True)
         self.server = Server()
         self.loop.run_until_complete(self.server.listen(int(port)))
-        self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
     
     def check_neighbors(self):
         return self.server.bootstrappable_neighbors()
@@ -30,12 +29,8 @@ class Node:
         bootstrap_node = (addr, int(port))
         self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
 
-    def get(self, key):
-        #self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
-        result = self.loop.run_until_complete(self.server.get(key))
-        return result
+    def get(self, key): 
+        return self.loop.run_until_complete(self.server.get(key))
 
     def set(self, key, value):
-        #self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
-        result = self.loop.run_until_complete(self.server.set(key, value))
-        return result
+        return self.loop.run_until_complete(self.server.set(key, value))
