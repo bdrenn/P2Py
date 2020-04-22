@@ -22,12 +22,6 @@ class Node:
         self.server = Server()
         self.loop.run_until_complete(self.server.listen(int(port)))
         self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
-
-    def first_node(self):
-        try:
-            self.loop.run_forever()
-        except KeyboardInterrupt:
-            return
     
     def check_neighbors(self):
         return self.server.bootstrappable_neighbors()

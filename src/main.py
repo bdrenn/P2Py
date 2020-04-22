@@ -8,12 +8,10 @@ NETWORK_PORT = 4586
 def decide_first_node(my_port, addr=None):
 	try:
 		node = Node(NETWORK_PORT)
-		print("You're the first node!")
-		#node.first_node()
+		print("\nYou're the first node!")
 	except:
 		node = Node(my_port)
-		#node.bootstrap_node(addr, NETWORK_PORT)
-		print("I'm bootstrapping")
+		print("\nYou're on the network!")
 	return node	
 
 print("-----------------------------------------------------------------")
@@ -47,8 +45,9 @@ if ans[0] == "Y" or ans[0] == "y":
 					time.sleep(2)
 					node.bootstrap_node(addr, NETWORK_PORT)
 					node.set('hello','file')
-					#print("TESTING")
-					#print(node.set('hello','file'))
+					print("TESTING")
+					if node.set('hello','file') == True:
+						break
 			except:
 				print("You're the main node now!")
 				#node.first_node()		
@@ -58,7 +57,7 @@ if ans[0] == "Y" or ans[0] == "y":
 			for i in range(5):
 				time.sleep(2)
 				node.bootstrap_node(addr, NETWORK_PORT)
-				if node.get('hello') != 'None':
+				if node.get('hello') != None:
 					print("\n")
 					print(node.get('hello'))
 					print("\n")
