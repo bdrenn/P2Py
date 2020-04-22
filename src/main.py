@@ -5,6 +5,9 @@ import time
 
 NETWORK_PORT = 4586
 
+# Deciding if it's a first node 
+# If node is first - port is set to NETWORK_PORT, 
+# Else it's user entered port
 def decide_first_node(my_port, addr=None):
 	try:
 		node = Node(NETWORK_PORT)
@@ -13,6 +16,34 @@ def decide_first_node(my_port, addr=None):
 		node = Node(my_port)
 		print("\nYou're on the network!")
 	return node	
+
+# Function for getting a file from the network
+def get(file):
+	for i in range(5):    # Keep trying to get from network until it finds other nodes
+		time.sleep(2)     # Sleeping in between requests to give other nodes time to join
+		node.bootstrap_node(addr, NETWORK_PORT)
+		if node.get(file) != None:    # If statement to break loop once file is found
+			print("\n")
+			print(node.get(file))
+			print("\n")
+			break
+	return
+
+# Function for setting a file to the network
+def set(fname, file):
+	try:
+		print("\n")
+		for i in range(5):   # Keep trying to set to network until it finds other nodes
+			time.sleep(2)    # Sleeping in between requests to give other nodes time to join
+			node.bootstrap_node(addr, NETWORK_PORT)
+			node.set(fname,file)
+			if node.set(fname,file) == True:    # If statement to break loop once file is set
+				break
+	except:
+		print("Couldn't find any other nodes on the network!")
+	return
+
+
 
 print("-----------------------------------------------------------------")
 print("**************************** Welcome ****************************")
@@ -38,30 +69,13 @@ if ans[0] == "Y" or ans[0] == "y":
 		print("\n")
 		if secondInput[0] == 'S' or secondInput[0] == 's':
 			#This is where we our set function
-			try:
-				print(node.check_neighbors())
-				print("\n")
-				for i in range(5):
-					time.sleep(2)
-					node.bootstrap_node(addr, NETWORK_PORT)
-					node.set('hello','file')
-					print("TESTING")
-					if node.set('hello','file') == True:
-						break
-			except:
-				print("You're the main node now!")
-				#node.first_node()		
+			setInput = input("\n What file do you want to SET to the network? Example - file file.txt : ")
+			[fname, file] = setInput.split(" ")
+			set(fname, file)	
 		elif secondInput[0] == 'G' or secondInput[0] == 'g':
 			#This is where we call our get function
-			print("\n")
-			for i in range(5):
-				time.sleep(2)
-				node.bootstrap_node(addr, NETWORK_PORT)
-				if node.get('hello') != None:
-					print("\n")
-					print(node.get('hello'))
-					print("\n")
-					break
+			getInput = input("\n What file do you want to GET to the network? Example - filename : ")
+			get(getInput)
 		elif secondInput[0] == 'Q' or secondInput[0] == 'q':
 			print("\nThanks for joining, good bye!")
 			break
