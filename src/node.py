@@ -13,7 +13,6 @@ log = logging.getLogger('kademlia')
 log.addHandler(handler)
 log.setLevel(logging.DEBUG)
 
-##### NEED TO DIFFERENTIATE BETWEEN NODES AND A SERVER
 
 class Node:
     def __init__(self, port):
