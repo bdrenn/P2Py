@@ -1,6 +1,7 @@
 import sys
 import os
 from node import Node
+import time
 
 NETWORK_PORT = 4586
 
@@ -8,10 +9,10 @@ def decide_first_node(my_port, addr=None):
 	try:
 		node = Node(NETWORK_PORT)
 		print("You're the first node!")
-		node.first_node()
+		#node.first_node()
 	except:
 		node = Node(my_port)
-		node.bootstrap_node(addr, NETWORK_PORT)
+		#node.bootstrap_node(addr, NETWORK_PORT)
 		print("I'm bootstrapping")
 	return node	
 
@@ -34,23 +35,34 @@ if ans[0] == "Y" or ans[0] == "y":
 
 	## CONTINUOUS LOOP ASKING WHAT THE USER WANTS TO DO ##
 	print("\nNow that you've joined, what would you like to do?")
-	#secondInput = input("\nThe options are get a file, set a file, or quit (get/set/quit) : ")
 	while True:
 		secondInput = input("\nThe options are get a file, set a file, or quit (get/set/quit) : ")
 		print("\n")
 		if secondInput[0] == 'S' or secondInput[0] == 's':
-			#This is where we would call our set function
+			#This is where we our set function
 			try:
 				print(node.check_neighbors())
 				print("\n")
-				node.set('hello','file')
+				for i in range(5):
+					time.sleep(2)
+					node.bootstrap_node(addr, NETWORK_PORT)
+					node.set('hello','file')
+					#print("TESTING")
+					#print(node.set('hello','file'))
 			except:
 				print("You're the main node now!")
-				node.first_node()		
+				#node.first_node()		
 		elif secondInput[0] == 'G' or secondInput[0] == 'g':
-			#This is where we could call our get function
+			#This is where we call our get function
 			print("\n")
-			print(node.get('hello'))
+			for i in range(5):
+				time.sleep(2)
+				node.bootstrap_node(addr, NETWORK_PORT)
+				if node.get('hello') != 'None':
+					print("\n")
+					print(node.get('hello'))
+					print("\n")
+					break
 		elif secondInput[0] == 'Q' or secondInput[0] == 'q':
 			print("\nThanks for joining, good bye!")
 			break

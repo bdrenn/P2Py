@@ -5,6 +5,7 @@ import os
 from kademlia.network import Server
 
 
+
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
@@ -20,12 +21,13 @@ class Node:
         self.loop.set_debug(True)
         self.server = Server()
         self.loop.run_until_complete(self.server.listen(int(port)))
-        
+        self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
+
     def first_node(self):
         try:
             self.loop.run_forever()
         except KeyboardInterrupt:
-            return      
+            return
     
     def check_neighbors(self):
         return self.server.bootstrappable_neighbors()
@@ -35,7 +37,11 @@ class Node:
         self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
 
     def get(self, key):
-        return self.loop.run_until_complete(self.server.get(key))
+        #self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
+        result = self.loop.run_until_complete(self.server.get(key))
+        return result
 
     def set(self, key, value):
-        return self.loop.run_until_complete(self.server.set(key, value))
+        #self.loop.run_until_complete(self.server.bootstrap(self.server.bootstrappable_neighbors()))
+        result = self.loop.run_until_complete(self.server.set(key, value))
+        return result
