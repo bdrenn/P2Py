@@ -4,9 +4,6 @@ import sys
 import os
 from kademlia.network import Server
 
-###############################
-#### LOGGING FROM KADEMLIA ####
-###############################
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
@@ -14,9 +11,6 @@ log = logging.getLogger('kademlia')
 log.addHandler(handler)
 log.setLevel(logging.DEBUG)
 
-#########################
-#### MAIN NODE CLASS ####
-#########################
 class Node:
     def __init__(self, port):
         self.loop = asyncio.get_event_loop()
