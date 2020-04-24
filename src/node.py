@@ -11,22 +11,19 @@ log = logging.getLogger('kademlia')
 log.addHandler(handler)
 log.setLevel(logging.DEBUG)
 
-class Node:
-    def __init__(self, port):
+class Node(Server):
+    def __init__(self):
+        Server.__init__(self)
         self.loop = asyncio.get_event_loop()
         self.loop.set_debug(True)
-        self.server = Server()
-        self.loop.run_until_complete(self.server.listen(int(port)))
-    
-    def check_neighbors(self):
-        return self.server.bootstrappable_neighbors()
 
-    def bootstrap_node(self, addr, port):
-        bootstrap_node = (addr, int(port))
-        self.loop.run_until_complete(self.server.bootstrap([bootstrap_node]))
+    async def listening(self, port):
+        await self.listen(port)
+        
+    async def join_network_node(self, addr, port):
+        await self.bootstrap([(addr, int(port))])
 
-    def get(self, key): 
-        return self.loop.run_until_complete(self.server.get(key))
+    async def get_peers(self):
+       return self.bootstrappable_neighbors()
 
-    def set(self, key, value):
-        return self.loop.run_until_complete(self.server.set(key, value))
+
