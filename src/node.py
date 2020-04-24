@@ -3,6 +3,7 @@ import asyncio
 import sys
 import os
 from kademlia.network import Server
+from threading import Thread
 
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -17,13 +18,18 @@ class Node(Server):
         self.loop = asyncio.get_event_loop()
         self.loop.set_debug(True)
 
-    async def listening(self, port):
-        await self.listen(port)
+    def listening(self, port):
+        self.loop.run_until_complete(self.listen(port))
+        t = Thread(target=self.handler, args=(self.loop,))
+        t.start()
+
+    def handler(self, loop):
+        asyncio.set_event_loop(loop)
+        loop.run_forever()
         
-    async def join_network_node(self, addr, port):
-        await self.bootstrap([(addr, int(port))])
+    def join_network_node(self, addr, port):
+        asyncio.run_coroutine_threadsafe(self.bootstrap([(addr, int(port))]), self.loop)
 
-    async def get_peers(self):
-       return self.bootstrappable_neighbors()
-
-
+    def get_peers(self):
+        peers = self.bootstrappable_neighbors()
+        return peers
