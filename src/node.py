@@ -5,8 +5,8 @@ import os
 from kademlia.network import Server
 from threading import Thread
 
-host_port = 1001
-user_port = 1002
+host_port = 1005
+user_port = 1006
 host_IP = '0.0.0.0'
 
 class Node(Server):
@@ -43,7 +43,7 @@ class Node(Server):
         asyncio.run_coroutine_threadsafe(self.set(file_name, file_value), self.loop)
 
     def get_file(self, file_name):
-        file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop)
+        file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop).result()
         return file_value
 
     def setup(self):
