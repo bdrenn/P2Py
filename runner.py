@@ -8,7 +8,7 @@ app_name = """
   | | | | '_ \| | | | |_) / _ \/ _ \ '__|
   | | | | | | | |_| |  __/  __/  __/ |   
   |_| |_|_| |_|\__, |_|   \___|\___|_|          """
-# Main loop 
+# Main loop :)
 def print_menu():
     print(app_name, "\n")
     print("1. Get Peers")
