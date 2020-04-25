@@ -14,7 +14,7 @@ def print_menu():
     print("1. Get Peers")
     print("2. Set File")
     print("3. Get File")
-    print("4. Menu Option 4")
+    print("4. Edit File")
     print("5. Exit")
 
 def main(args):
@@ -34,12 +34,16 @@ def main(args):
             print(node.get_peers())
         elif choice==2:
             file_name = input('Enter the file name: ')
-            file_value = input('Enter file value: ')
-            node.set_file(file_name, file_value)
+            #file_value = input('Enter file value: ')
+            file_value = open(file_name, "r")
+            node.set_file(file_name, file_value.read())
             print('File set!')
+            file_value.close()
         elif choice==3:
             file_name = input('Enter the file name: ')
             file_value = node.get_file(file_name)
+            file = open(file_name, "w")
+            file.write(file_value)
             print('File: ', file_value)
         elif choice==4:
             print("Menu 4 has been selected")
