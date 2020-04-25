@@ -11,7 +11,7 @@ app_name = """
 # Main loop 
 def print_menu():
     print(app_name, "\n")
-    print("1. Menu Option 1")
+    print("1. Get peers")
     print("2. Menu Option 2")
     print("3. Menu Option 3")
     print("4. Menu Option 4")
@@ -24,13 +24,13 @@ def main(args):
         node.log()
 
     node.setup()
-    
+
     while True:
         print_menu() 
         choice = int(input("Enter your choice [1-5]: "))
         
         if choice==1:     
-            print("Getting peers...")
+            print("Getting Peers...")
             print(node.get_peers())
         elif choice==2:
             print("Menu 2 has been selected")
