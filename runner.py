@@ -1,26 +1,5 @@
 from src.node import Node
-
-host_port = 1001
-user_port = 1002
-host_IP = '0.0.0.0'
-
-def setup_node():
-    node = Node()
-
-    try:
-        print("hello")
-        node.listening(host_port)
-        print("First node ")
-    except Exception as e:
-        try:
-            node.listening(int(user_port))
-            node.join_network_node(host_IP, host_port)
-        except Exception as e:
-            print(e)
-
-    return node
-
-
+import argparse
 
 
 app_name = """
@@ -38,8 +17,14 @@ def print_menu():
     print("4. Menu Option 4")
     print("5. Exit")
 
-def main():
-    node = setup_node()
+def main(args):
+    node = Node()
+
+    if args.verbose is True:
+        node.log()
+
+    node.setup()
+    
     while True:
         print_menu() 
         choice = int(input("Enter your choice [1-5]: "))
@@ -63,4 +48,10 @@ def main():
         else:
             choice = input("Wrong option selection. Enter any key to try again..")
 
-main()
+
+my_parser = argparse.ArgumentParser(description= 'File sharing application')
+
+my_parser.add_argument('--verbose', action='store_true', help='Display logs' )
+args = my_parser.parse_args()
+
+main(args)

@@ -5,18 +5,23 @@ import os
 from kademlia.network import Server
 from threading import Thread
 
-handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-log = logging.getLogger('kademlia')
-log.addHandler(handler)
-log.setLevel(logging.DEBUG)
+host_port = 1001
+user_port = 1002
+host_IP = '0.0.0.0'
 
 class Node(Server):
     def __init__(self):
         Server.__init__(self)
         self.loop = asyncio.get_event_loop()
         self.loop.set_debug(True)
+
+    def log(self):
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        log = logging.getLogger('kademlia')
+        log.addHandler(handler)
+        log.setLevel(logging.DEBUG)
 
     def listening(self, port):
         self.loop.run_until_complete(self.listen(port))
@@ -33,3 +38,15 @@ class Node(Server):
     def get_peers(self):
         peers = self.bootstrappable_neighbors()
         return peers
+
+    def setup(self):
+        try:
+            self.listening(host_port)
+            print("First node!")
+        except Exception as e:
+            try:
+                self.listening(int(user_port))
+                self.join_network_node(host_IP, host_port)
+                print('Welcome!')
+            except Exception as e:
+                print(e)
