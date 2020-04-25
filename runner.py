@@ -9,7 +9,7 @@ app_name = """
   | | | | '_ \| | | | |_) / _ \/ _ \ '__|
   | | | | | | | |_| |  __/  __/  __/ |   
   |_| |_|_| |_|\__, |_|   \___|\___|_|          """
-# Main loop :)
+
 def print_menu():
     print(app_name, "\n")
     print("1. Get Peers")
@@ -18,6 +18,47 @@ def print_menu():
     print("4. Edit File")
     print("5. Exit")
 
+# Function for setting a file to the network
+def set_file(node):
+    try:
+        file_path = input('Enter the path to the file: ')
+        file_name = ntpath.basename(file_path)
+        file_value = open(file_path, "r")
+        json_dump = json.dumps(file_value.read())
+        node.set_file(file_name, json_dump)
+        file_value.close()
+    except Exception as e:
+        print(e)
+    return
+
+# Function for getting a file from the network
+def get_file(node):
+    try:
+        file_name = input('Enter the file name: ')
+        json_value = node.get_file(file_name)
+        file_value = json.loads(json_value)
+        file = open('storage/' + file_name, "w")
+        file.write(file_value)
+        file.close()
+        return file_value
+    except Exception as e:
+        print(e)
+    return
+
+# Function for editing a file within the storage
+def edit_file():
+    try:
+        file_name = input("Enter the file name you want to edit: ")
+        file = open('storage/' + file_name, "w")
+        print("File succesfully opened")
+        file_edit = input("Enter the edits to the file: ")
+        file.write(file_edit)
+        file.close()
+    except Exception as e:
+        print(e)
+    return
+
+# Main loop
 def main(args):
     node = Node()
 
@@ -34,30 +75,14 @@ def main(args):
             print("Getting Peers...")
             print(node.get_peers())
         elif choice==2:
-            file_path = input('Enter the path to the file: ')
-            file_name = ntpath.basename(file_path)
-            #file_value = input('Enter file value: ')
-            file_value = open(file_path, "r")
-            json_dump = json.dumps(file_value.read())
-            node.set_file(file_name, json_dump)
+            set_file(node)
             print('File set!')
-            file_value.close()
         elif choice==3:
-            file_name = input('Enter the file name: ')
-            json_value = node.get_file(file_name)
-            file_value = json.loads(json_value)
-            file = open('storage/' + file_name, "w")
-            file.write(file_value)
+            file_value = get_file(node)
             print('File: ', file_value)
-            file.close()
         elif choice==4:
-            file_name = input("Enter the file name you want to edit: ")
-            file = open('storage/' + file_name, "w")
-            print("File succesfully opened")
-            file_edit = input("Enter the edits to the file: ")
-            file.write(file_edit)
-            print("File succesfully edited")
-            file.close() 
+            edit_file()
+            print("File succesfully edited") 
         elif choice==5:
             print("Thanks for joining us!")
             ## need a way of stopping all threads and exiting program
