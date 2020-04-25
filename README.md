@@ -1,5 +1,16 @@
-# P2Py
-Peer to Peer Network Using Python
+# Tiny Peer
 
-Useful Framework
-https://cs.berry.edu/~nhamid/p2p/index.html
+Tiny Peer is distributed CLI file sharing application. 
+
+
+## Usage
+
+```bash
+python3 runner.py 
+```
+
+## Contributing
+Brian Drennan
+Jackson Bursch 
+
+

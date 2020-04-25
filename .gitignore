@@ -3,3 +3,10 @@ vscode/
 
 # Virtual Env
 venv/
+
+#swp
+*.swp
+
+# pycache
+__pycache__/
+*.pyc
