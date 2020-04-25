@@ -1,6 +1,6 @@
 from src.node import Node
 import argparse
-
+import json
 
 app_name = """
  _____ _             ____                
@@ -35,21 +35,30 @@ def main(args):
         elif choice==2:
             file_name = input('Enter the file name: ')
             #file_value = input('Enter file value: ')
-            file_value = open(file_name, "r")
-            node.set_file(file_name, file_value.read())
+            file_value = open('storage/' + file_name, "r")
+            json_dump = json.dumps(file_value.read())
+            node.set_file(file_name, json_dump)
             print('File set!')
             file_value.close()
         elif choice==3:
             file_name = input('Enter the file name: ')
-            file_value = node.get_file(file_name)
-            file = open(file_name, "w")
+            json_value = node.get_file(file_name)
+            file_value = json.loads(json_value)
+            file = open('storage/' + file_name, "w")
             file.write(file_value)
             print('File: ', file_value)
+            file.close()
         elif choice==4:
-            print("Menu 4 has been selected")
-            ## You can add your code or functions here
+            file_name = input("Enter the file name you want to edit: ")
+            file = open('storage/' + file_name, "w")
+            print("File succesfully opened")
+            file_edit = input("Enter the edits to the file: ")
+            file.write(file_edit)
+            print("File succesfully edited")
+            file.close() 
         elif choice==5:
-            print("Menu 5 has been selected")
+            print("Thanks for joining us!")
+            ## need a way of stopping all threads and exiting program
             ## You can add your code or functions here
             break
         else:
