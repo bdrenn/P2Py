@@ -11,9 +11,9 @@ app_name = """
 # Main loop 
 def print_menu():
     print(app_name, "\n")
-    print("1. Get peers")
-    print("2. Menu Option 2")
-    print("3. Menu Option 3")
+    print("1. Get Peers")
+    print("2. Set File")
+    print("3. Get File")
     print("4. Menu Option 4")
     print("5. Exit")
 
@@ -33,11 +33,14 @@ def main(args):
             print("Getting Peers...")
             print(node.get_peers())
         elif choice==2:
-            print("Menu 2 has been selected")
-            ## You can add your code or functions here
+            file_name = input('Enter the file name: ')
+            file_value = input('Enter file value: ')
+            node.set_file(file_name, file_value)
+            print('File set!')
         elif choice==3:
-            print("Menu 3 has been selected")
-            ## You can add your code or functions here
+            file_name = input('Enter the file name: ')
+            file_value = node.get_file(file_name)
+            print('File: ', file_value)
         elif choice==4:
             print("Menu 4 has been selected")
             ## You can add your code or functions here
