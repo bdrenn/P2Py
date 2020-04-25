@@ -39,6 +39,13 @@ class Node(Server):
         peers = self.bootstrappable_neighbors()
         return peers
 
+    def set_file(self, file_name, file_value):
+        asyncio.run_coroutine_threadsafe(self.set(file_name, file_value), self.loop)
+
+    def get_file(self, file_name):
+        file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop)
+        return file_value
+
     def setup(self):
         try:
             self.listening(host_port)
