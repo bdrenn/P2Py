@@ -1,6 +1,7 @@
 from src.node import Node
 import argparse
 import json
+import ntpath
 
 app_name = """
  _____ _             ____                
@@ -33,9 +34,10 @@ def main(args):
             print("Getting Peers...")
             print(node.get_peers())
         elif choice==2:
-            file_name = input('Enter the file name: ')
+            file_path = input('Enter the path to the file: ')
+            file_name = ntpath.basename(file_path)
             #file_value = input('Enter file value: ')
-            file_value = open('storage/' + file_name, "r")
+            file_value = open(file_path, "r")
             json_dump = json.dumps(file_value.read())
             node.set_file(file_name, json_dump)
             print('File set!')
