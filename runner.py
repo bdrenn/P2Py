@@ -47,18 +47,6 @@ def get_file(node):
         print(e)
     return
 
-""" # Function for editing a file within the storage
-def edit_file():
-    try:
-        file_name = input("Enter the file name you want to edit: ")
-        file = open('storage/' + file_name, "w")
-        print("File succesfully opened")
-        file_edit = input("Enter the edits to the file: ")
-        file.write(file_edit)
-        file.close()
-    except Exception as e:
-        print(e)
-    return """
 
 # Main loop
 def main(args):
@@ -67,7 +55,7 @@ def main(args):
     if args.verbose is True:
         node.log()
 
-    node.setup()
+    node.setup(args.host_port, host_IP=args.host_ip)
 
     while True:
         print_menu() 
@@ -97,6 +85,8 @@ def main(args):
 my_parser = argparse.ArgumentParser(description= 'File sharing application')
 
 my_parser.add_argument('--verbose', action='store_true', help='Display logs' )
+my_parser.add_argument('--host_ip', type=str)
+my_parser.add_argument('--host_port', type=int)
 args = my_parser.parse_args()
 
 main(args)

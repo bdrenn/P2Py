@@ -7,8 +7,6 @@ from kademlia.network import Server
 from threading import Thread
 from contextlib import closing
 
-host_port = 1005
-host_IP = '0.0.0.0'
 
 class Node(Server):
     def __init__(self):
@@ -47,11 +45,9 @@ class Node(Server):
         file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop).result()
         return file_value
 
-    def setup(self):
-        try:
-            self.listening(host_port)
-            print("First node!")
-        except Exception as e:
+    def setup(self, host_port, host_IP=None):
+        print(host_IP)
+        if host_IP is not None:
             try:
                 with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
                     s.bind(('', 0))
@@ -60,5 +56,11 @@ class Node(Server):
                 self.listening(int(user_port))
                 self.join_network_node(host_IP, host_port)
                 print('Welcome!')
+            except Exception as e:
+                print(e)
+        else:
+            try:
+                self.listening(host_port)
+                print('First node!')
             except Exception as e:
                 print(e)
