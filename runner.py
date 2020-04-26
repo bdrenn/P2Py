@@ -12,6 +12,7 @@ app_name = """
   | | | | | | | |_| |  __/  __/  __/ |   
   |_| |_|_| |_|\__, |_|   \___|\___|_|          """
 
+
 def print_menu():
     print(app_name, "\n")
     print("1. Get Peers")
