@@ -4,6 +4,7 @@ import sys
 import os
 import socket
 from kademlia.network import Server
+from kademlia.crawling import RPCFindResponse
 from threading import Thread
 from contextlib import closing
 
@@ -11,6 +12,7 @@ from contextlib import closing
 class Node(Server):
     def __init__(self):
         Server.__init__(self)
+        self.RPCresponse = RPCFindResponse(self)
         self.loop = asyncio.get_event_loop()
         self.loop.set_debug(True)
 
@@ -25,6 +27,7 @@ class Node(Server):
     def listening(self, port):
         self.loop.run_until_complete(self.listen(port))
         t = Thread(target=self.handler, args=(self.loop,))
+        t.daemon = True
         t.start()
 
     def handler(self, loop):
@@ -45,8 +48,14 @@ class Node(Server):
         file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop).result()
         return file_value
 
+    def get_all_nodes(self):
+        value = self.RPCresponse.get_node_list()
+        return value
+
+    def kill_thread(self):
+        sys.exit()
+        
     def setup(self, host_port, host_IP=None):
-        print(host_IP)
         if host_IP is not None:
             try:
                 with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:

@@ -2,8 +2,11 @@ from src.node import Node
 import argparse
 import json
 import ntpath
+import sys
 from base64 import b64decode
 from base64 import b64encode
+
+master_key = []
 
 app_name = """
  _____ _             ____                
@@ -18,7 +21,7 @@ def print_menu():
     print("1. Get Peers")
     print("2. Set File")
     print("3. Get File")
-    print("4. Edit File")
+    print("4. Get All Files")
     print("5. Exit")
 
 # Function for setting a file to the network
@@ -29,6 +32,11 @@ def set_file(node):
         file_value = open(file_path,'rb')
         encoded_string = b64encode(file_value.read())
         node.set_file(file_name, encoded_string)
+        if node.get_file("master") is not None:
+            master_key = str(file_name) + ", " + str(node.get_file("master"))
+        else:
+            master_key = str(file_name)
+        node.set_file("master",master_key)
         file_value.close()
     except Exception as e:
         print(e)
@@ -59,27 +67,26 @@ def main(args):
 
     while True:
         print_menu() 
-        choice = int(input("Enter your choice [1-5]: "))
+        choice = input("Enter your choice [1-5]: ")
         
-        if choice==1:     
+        if choice=='1':     
             print("Getting Peers...")
             print(node.get_peers())
-        elif choice==2:
+        elif choice=='2':
             set_file(node)
             print('File set!')
-        elif choice==3:
+        elif choice=='3':
             get_file(node)
             print('Got file!')
-        elif choice==4:
-            #edit_file()
-            print("File succesfully edited") 
-        elif choice==5:
+        elif choice=='4':
+            print(node.get_file("master"))
+        elif choice=='5':
+            node.kill_thread()
             print("Thanks for joining us!")
-            ## need a way of stopping all threads and exiting program
-            ## You can add your code or functions here
+            sys.exit()
             break
         else:
-            choice = input("Wrong option selection. Enter any key to try again..")
+            print("Wrong option selection. Please try again...")
 
 
 my_parser = argparse.ArgumentParser(description= 'File sharing application')
