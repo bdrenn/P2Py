@@ -2,11 +2,12 @@ import logging
 import asyncio
 import sys
 import os
+import socket
 from kademlia.network import Server
 from threading import Thread
+from contextlib import closing
 
 host_port = 1005
-user_port = 1006
 host_IP = '0.0.0.0'
 
 class Node(Server):
@@ -52,6 +53,10 @@ class Node(Server):
             print("First node!")
         except Exception as e:
             try:
+                with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+                    s.bind(('', 0))
+                    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                    user_port = s.getsockname()[1]
                 self.listening(int(user_port))
                 self.join_network_node(host_IP, host_port)
                 print('Welcome!')
