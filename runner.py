@@ -2,6 +2,8 @@ from src.node import Node
 import argparse
 import json
 import ntpath
+from base64 import b64decode
+from base64 import b64encode
 
 app_name = """
  _____ _             ____                
@@ -23,9 +25,9 @@ def set_file(node):
     try:
         file_path = input('Enter the path to the file: ')
         file_name = ntpath.basename(file_path)
-        file_value = open(file_path, "r")
-        json_dump = json.dumps(file_value.read())
-        node.set_file(file_name, json_dump)
+        file_value = open(file_path,'rb')
+        encoded_string = b64encode(file_value.read())
+        node.set_file(file_name, encoded_string)
         file_value.close()
     except Exception as e:
         print(e)
@@ -35,12 +37,11 @@ def set_file(node):
 def get_file(node):
     try:
         file_name = input('Enter the file name: ')
-        json_value = node.get_file(file_name)
-        file_value = json.loads(json_value)
-        file = open('storage/' + file_name, "w")
-        file.write(file_value)
+        file_value = node.get_file(file_name)
+        file = open('storage/' + file_name,'wb')
+        bytes = b64decode(file_value, validate=True)
+        file.write(bytes)
         file.close()
-        return file_value
     except Exception as e:
         print(e)
     return
@@ -78,8 +79,8 @@ def main(args):
             set_file(node)
             print('File set!')
         elif choice==3:
-            file_value = get_file(node)
-            print('File: ', file_value)
+            get_file(node)
+            print('Got file!')
         elif choice==4:
             edit_file()
             print("File succesfully edited") 
