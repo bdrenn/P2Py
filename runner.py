@@ -46,7 +46,7 @@ def get_file(node):
         print(e)
     return
 
-# Function for editing a file within the storage
+""" # Function for editing a file within the storage
 def edit_file():
     try:
         file_name = input("Enter the file name you want to edit: ")
@@ -57,7 +57,7 @@ def edit_file():
         file.close()
     except Exception as e:
         print(e)
-    return
+    return """
 
 # Main loop
 def main(args):
