@@ -82,7 +82,7 @@ def main(args):
             get_file(node)
             print('Got file!')
         elif choice==4:
-            edit_file()
+            #edit_file()
             print("File succesfully edited") 
         elif choice==5:
             print("Thanks for joining us!")
