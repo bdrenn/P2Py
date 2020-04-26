@@ -55,7 +55,7 @@ def main(args):
     if args.verbose is True:
         node.log()
 
-    node.setup(args.port, host_IP=args.ip)
+    node.setup(args.host_port, host_IP=args.host_ip)
 
     while True:
         print_menu() 
@@ -85,8 +85,8 @@ def main(args):
 my_parser = argparse.ArgumentParser(description= 'File sharing application')
 
 my_parser.add_argument('--verbose', action='store_true', help='Display logs' )
-my_parser.add_argument('--ip', type=str)
-my_parser.add_argument('--port', type=int)
+my_parser.add_argument('--host_ip', type=str)
+my_parser.add_argument('--host_port', type=int)
 args = my_parser.parse_args()
 
 main(args)

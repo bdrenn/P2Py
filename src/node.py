@@ -53,8 +53,8 @@ class Node(Server):
                     s.bind(('', 0))
                     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                     user_port = s.getsockname()[1]
-                self.join_network_node(host_IP, host_port)
                 self.listening(int(user_port))
+                self.join_network_node(host_IP, host_port)
                 print('Welcome!')
             except Exception as e:
                 print(e)
