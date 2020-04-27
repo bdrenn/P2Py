@@ -6,8 +6,6 @@ import sys
 from base64 import b64decode
 from base64 import b64encode
 
-master_key = []
-
 app_name = """
  _____ _             ____                
 |_   _(_)_ __  _   _|  _ \ ___  ___ _ __ 
@@ -32,11 +30,13 @@ def set_file(node):
         file_value = open(file_path,'rb')
         encoded_string = b64encode(file_value.read())
         node.set_file(file_name, encoded_string)
-        if node.get_file("master") is not None:
-            master_key = str(file_name) + ", " + str(node.get_file("master"))
+        # Using master_key to create a list of all files set on the network
+        if node.get_file("master_key") is not None:
+            master_value = str(file_name) + ", " + str(node.get_file("master_key"))
         else:
             master_key = str(file_name)
-        node.set_file("master",master_key)
+        # Store the master_key to the network
+        node.set_file("master_key",master_value)
         file_value.close()
     except Exception as e:
         print(e)
@@ -79,7 +79,7 @@ def main(args):
             get_file(node)
             print('Got file!')
         elif choice=='4':
-            print(node.get_file("master"))
+            print(node.get_file("master_key"))
         elif choice=='5':
             node.kill_thread()
             print("Thanks for joining us!")

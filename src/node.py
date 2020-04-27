@@ -4,7 +4,6 @@ import sys
 import os
 import socket
 from kademlia.network import Server
-from kademlia.crawling import RPCFindResponse
 from threading import Thread
 from contextlib import closing
 
@@ -47,10 +46,6 @@ class Node(Server):
     def get_file(self, file_name):
         file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop).result()
         return file_value
-
-    def get_all_nodes(self):
-        value = self.RPCresponse.get_node_list()
-        return value
 
     def kill_thread(self):
         sys.exit()
