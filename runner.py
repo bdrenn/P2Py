@@ -6,6 +6,7 @@ import sys
 from base64 import b64decode
 from base64 import b64encode
 
+
 app_name = """
  _____ _             ____                
 |_   _(_)_ __  _   _|  _ \ ___  ___ _ __ 
@@ -34,7 +35,7 @@ def set_file(node):
         if node.get_file("master_key") is not None:
             master_value = str(file_name) + ", " + str(node.get_file("master_key"))
         else:
-            master_key = str(file_name)
+            master_value = str(file_name)
         # Store the master_key to the network
         node.set_file("master_key",master_value)
         file_value.close()

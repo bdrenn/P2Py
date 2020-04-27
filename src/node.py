@@ -11,7 +11,6 @@ from contextlib import closing
 class Node(Server):
     def __init__(self):
         Server.__init__(self)
-        self.RPCresponse = RPCFindResponse(self)
         self.loop = asyncio.get_event_loop()
         self.loop.set_debug(True)
 
