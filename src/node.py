@@ -25,6 +25,7 @@ class Node(Server):
     def listening(self, port):
         self.loop.run_until_complete(self.listen(port))
         t = Thread(target=self.handler, args=(self.loop,))
+        t.daemon = True
         t.start()
 
     def handler(self, loop):
@@ -45,8 +46,10 @@ class Node(Server):
         file_value = asyncio.run_coroutine_threadsafe(self.get(file_name), self.loop).result()
         return file_value
 
+    def kill_thread(self):
+        sys.exit()
+        
     def setup(self, host_port, host_IP=None):
-        print(host_IP)
         if host_IP is not None:
             try:
                 with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
