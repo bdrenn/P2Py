@@ -7,8 +7,28 @@ from kademlia.network import Server
 from threading import Thread
 from contextlib import closing
 
-
 class Node(Server):
+    """ Class for nodes in our DHT using a Kademlia
+
+    Kademlia uses a binary tree structure and a XOR metric for traversing the tree. 
+    The keys are concatanated with 160 bits and hashed, then stored on leaves.
+    Because of its efficient use of subtrees and the XOR metric it uses to find the nodes
+    in the leaves of each subtree, the algorithm runs at a time of O(log(n)). Given that
+    each file has its own unique node, files are also updated on the DHT in that time aswell.
+
+    Args:
+        server (object): Server class from kademlia, has event_loops/listening/bootstrapping/get/set
+        host_port (int): Takes in the port to bootstrap to, if first node, becomes users port
+        port (int): If not first node, random open port is selected
+        host_IP (string): Local network IP address of first node to connect for bootstrapping
+        file_name (string): Key for storing/retrieving objects in the DHT
+        file_value (string): Bytes for objects storing in the DHT
+        loop (object): asyncio object for getting events on server, also used for multithreading
+    Returns:
+        peers: Crawls kademlia DHT and looks for all available bootstrappable neighbors
+        file_value (object): Bytes for objects stored in the DHT
+    """
+
     def __init__(self):
         Server.__init__(self)
         self.loop = asyncio.get_event_loop()
